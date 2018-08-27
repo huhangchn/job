@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzu.job.dao.ResumeJobMapper">
+  <resultMap id="BaseResultMap" type="com.wzu.job.bean.ResumeJob">
+    <result column="resume_id" jdbcType="INTEGER" property="resumeId" />
+    <result column="job_id" jdbcType="INTEGER" property="jobId" />
+    <result column="put_time" jdbcType="DATE" property="putTime" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="feedback" jdbcType="VARCHAR" property="feedback" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    resume_id, job_id, put_time, state, feedback
+  </sql>
+  <select id="selectByExample" parameterType="com.wzu.job.bean.ResumeJobExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from resume_job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.wzu.job.bean.ResumeJobExample">
+    delete from resume_job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wzu.job.bean.ResumeJob">
+    insert into resume_job (resume_id, job_id, put_time, 
+      state, feedback)
+    values (#{resumeId,jdbcType=INTEGER}, #{jobId,jdbcType=INTEGER}, #{putTime,jdbcType=DATE}, 
+      #{state,jdbcType=VARCHAR}, #{feedback,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzu.job.bean.ResumeJob">
+    insert into resume_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resumeId != null">
+        resume_id,
+      </if>
+      <if test="jobId != null">
+        job_id,
+      </if>
+      <if test="putTime != null">
+        put_time,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="feedback != null">
+        feedback,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resumeId != null">
+        #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="jobId != null">
+        #{jobId,jdbcType=INTEGER},
+      </if>
+      <if test="putTime != null">
+        #{putTime,jdbcType=DATE},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="feedback != null">
+        #{feedback,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wzu.job.bean.ResumeJobExample" resultType="java.lang.Long">
+    select count(*) from resume_job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update resume_job
+    <set>
+      <if test="record.resumeId != null">
+        resume_id = #{record.resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobId != null">
+        job_id = #{record.jobId,jdbcType=INTEGER},
+      </if>
+      <if test="record.putTime != null">
+        put_time = #{record.putTime,jdbcType=DATE},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedback != null">
+        feedback = #{record.feedback,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update resume_job
+    set resume_id = #{record.resumeId,jdbcType=INTEGER},
+      job_id = #{record.jobId,jdbcType=INTEGER},
+      put_time = #{record.putTime,jdbcType=DATE},
+      state = #{record.state,jdbcType=VARCHAR},
+      feedback = #{record.feedback,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
